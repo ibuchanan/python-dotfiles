@@ -37,17 +37,43 @@ if [ -d "$(brew --prefix)/share/python" ]; then
     export PATH=$PATH:$(brew --prefix)/share/python
 fi
 
+# Java
+if [ -x "$(command -v jenv)" ]; then
+    eval "$(jenv init -)"
+fi
+
+# Ruby
+export RBENV_HOME="$HOME/.rbenv"
+if [ -d "$RBENV_HOME" ]; then
+	export PATH=$RBENV_HOME/bin:$PATH
+	eval "$(rbenv init -)"
+fi
+
 # Go
 if [ -d ~/.gvm ]; then
     source ~/.gvm/scripts/gvm
 fi
 
 # Node
+export NODE_ENV=development
 export NVM_DIR="$HOME/.nvm"
 if [ -d "$NVM_DIR" ]; then
-    [ -s "/home/linuxbrew/.linuxbrew/opt/nvm/nvm.sh" ] && . "/home/linuxbrew/.linuxbrew/opt/nvm/nvm.sh"
-    [ -s "/home/linuxbrew/.linuxbrew/opt/nvm/etc/bash_completion.d/nvm" ] && . "/home/linuxbrew/.linuxbrew/opt/nvm/etc/bash_completion.d/nvm"
+    source $(brew --prefix nvm)/nvm.sh
 fi
+
+# Secrets
+## Atlassian Developer Environment
+readonly LP_ATLASSIAN_ORGANIZATION_DEVPARTISAN="Atlassian Organization devpartisan"
+readonly LP_ATLASSIAN_OAUTH_APP_DEVPARTISAN="Atlassian OAuth App devpartisan"
+readonly LP_ATLASSIAN_DEVELOPER_DEVPARTISAN="Atlassian Developer devpartisan"
+readonly ATLDEV_ORG_ID=$(lpass show --username "$LP_ATLASSIAN_ORGANIZATION_DEVPARTISAN")
+readonly ATLDEV_ADMIN_API_KEY=$(lpass show --password "$LP_ATLASSIAN_ORGANIZATION_DEVPARTISAN")
+readonly ATLDEV_CLIENT_ID=$(lpass show --username "$LP_ATLASSIAN_OAUTH_APP_DEVPARTISAN")
+readonly ATLDEV_CLIENT_SECRET=$(lpass show --password "$LP_ATLASSIAN_OAUTH_APP_DEVPARTISAN")
+readonly ATLDEV_USERNAME=$(lpass show --username "$LP_ATLASSIAN_DEVELOPER_DEVPARTISAN")
+readonly ATLDEV_PERSONAL_API_KEY=$(lpass show --password "$LP_ATLASSIAN_DEVELOPER_DEVPARTISAN")
+readonly ATLDEV_EMAIL=${ATLDEV_USERNAME}
+
 
 # Prompt
 eval "$(starship init zsh)"
