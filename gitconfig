@@ -1,0 +1,9 @@
+[user]
+	email = ibuchanan@atlassian.com
+	name = Ian Buchanan
+[push]
+	default = simple
+[color]
+	ui = auto
+[hub]
+	protocol = ssh

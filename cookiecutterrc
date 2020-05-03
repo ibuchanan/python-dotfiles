@@ -1,0 +1,10 @@
+default_context:
+    full_name: "Ian Buchanan"
+    email: "ibuchanan@atlassian.com"
+    author_name: "Ian Buchanan"
+    author_email: "ibuchanan@atlassian.com"
+    git_username: "ian_buchanan"
+    bitbucket_username: "ian_buchanan"
+    github_username: "ibuchanan"
+    dockerhub_username: "ibuchanan"
+    cookiecutter_namespace: "ian_buchanan"
