@@ -66,12 +66,15 @@ fi
 readonly LP_ATLASSIAN_ORGANIZATION_DEVPARTISAN="Atlassian Organization devpartisan"
 readonly LP_ATLASSIAN_OAUTH_APP_DEVPARTISAN="Atlassian OAuth App devpartisan"
 readonly LP_ATLASSIAN_DEVELOPER_DEVPARTISAN="Atlassian Developer devpartisan"
+readonly LP_ATLASSIAN_BITBUCKET_DEVPARTISAN="bitbucket.org App password"
 readonly ATLDEV_ORG_ID=$(lpass show --username "$LP_ATLASSIAN_ORGANIZATION_DEVPARTISAN")
 readonly ATLDEV_ADMIN_API_KEY=$(lpass show --password "$LP_ATLASSIAN_ORGANIZATION_DEVPARTISAN")
 readonly ATLDEV_CLIENT_ID=$(lpass show --username "$LP_ATLASSIAN_OAUTH_APP_DEVPARTISAN")
 readonly ATLDEV_CLIENT_SECRET=$(lpass show --password "$LP_ATLASSIAN_OAUTH_APP_DEVPARTISAN")
 readonly ATLDEV_USERNAME=$(lpass show --username "$LP_ATLASSIAN_DEVELOPER_DEVPARTISAN")
 readonly ATLDEV_PERSONAL_API_KEY=$(lpass show --password "$LP_ATLASSIAN_DEVELOPER_DEVPARTISAN")
+readonly ATLDEV_BITBUCKET_USERNAME=$(lpass show --username "$LP_ATLASSIAN_BITBUCKET_DEVPARTISAN")
+readonly ATLDEV_BITBUCKET_APP_PASSWORD=$(lpass show --password "$LP_ATLASSIAN_BITBUCKET_DEVPARTISAN")
 readonly ATLDEV_EMAIL=${ATLDEV_USERNAME}
 
 
