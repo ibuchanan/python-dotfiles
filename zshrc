@@ -80,6 +80,7 @@ readonly ATLDEV_EMAIL=${ATLDEV_USERNAME}
 
 # Prompt
 eval "$(starship init zsh)"
+screenfetch
 
 # Zinit
 
