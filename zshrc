@@ -63,24 +63,31 @@ fi
 
 # Secrets
 ## Atlassian Developer Environment
-readonly LP_ATLASSIAN_ORGANIZATION_DEVPARTISAN="Atlassian Organization devpartisan"
-readonly LP_ATLASSIAN_OAUTH_APP_DEVPARTISAN="Atlassian OAuth App devpartisan"
-readonly LP_ATLASSIAN_DEVELOPER_DEVPARTISAN="Atlassian Developer devpartisan"
-readonly LP_ATLASSIAN_BITBUCKET_DEVPARTISAN="bitbucket.org App password"
-readonly ATLDEV_ORG_ID=$(lpass show --username "$LP_ATLASSIAN_ORGANIZATION_DEVPARTISAN")
-readonly ATLDEV_ADMIN_API_KEY=$(lpass show --password "$LP_ATLASSIAN_ORGANIZATION_DEVPARTISAN")
-readonly ATLDEV_CLIENT_ID=$(lpass show --username "$LP_ATLASSIAN_OAUTH_APP_DEVPARTISAN")
-readonly ATLDEV_CLIENT_SECRET=$(lpass show --password "$LP_ATLASSIAN_OAUTH_APP_DEVPARTISAN")
-readonly ATLDEV_USERNAME=$(lpass show --username "$LP_ATLASSIAN_DEVELOPER_DEVPARTISAN")
-readonly ATLDEV_PERSONAL_API_KEY=$(lpass show --password "$LP_ATLASSIAN_DEVELOPER_DEVPARTISAN")
-readonly ATLDEV_BITBUCKET_USERNAME=$(lpass show --username "$LP_ATLASSIAN_BITBUCKET_DEVPARTISAN")
-readonly ATLDEV_BITBUCKET_APP_PASSWORD=$(lpass show --password "$LP_ATLASSIAN_BITBUCKET_DEVPARTISAN")
-readonly ATLDEV_EMAIL=${ATLDEV_USERNAME}
-
+# Lastpass
+if [ -x "$(command -v lpass)" ]; then
+    readonly LP_ATLASSIAN_ORGANIZATION_DEVPARTISAN="Atlassian Organization devpartisan"
+    readonly LP_ATLASSIAN_OAUTH_APP_DEVPARTISAN="Atlassian OAuth App devpartisan"
+    readonly LP_ATLASSIAN_DEVELOPER_DEVPARTISAN="Atlassian Developer devpartisan"
+    readonly LP_ATLASSIAN_BITBUCKET_DEVPARTISAN="bitbucket.org App password"
+    readonly ATLDEV_ORG_ID=$(lpass show --username "$LP_ATLASSIAN_ORGANIZATION_DEVPARTISAN")
+    readonly ATLDEV_ADMIN_API_KEY=$(lpass show --password "$LP_ATLASSIAN_ORGANIZATION_DEVPARTISAN")
+    readonly ATLDEV_CLIENT_ID=$(lpass show --username "$LP_ATLASSIAN_OAUTH_APP_DEVPARTISAN")
+    readonly ATLDEV_CLIENT_SECRET=$(lpass show --password "$LP_ATLASSIAN_OAUTH_APP_DEVPARTISAN")
+    readonly ATLDEV_USERNAME=$(lpass show --username "$LP_ATLASSIAN_DEVELOPER_DEVPARTISAN")
+    readonly ATLDEV_PERSONAL_API_KEY=$(lpass show --password "$LP_ATLASSIAN_DEVELOPER_DEVPARTISAN")
+    readonly ATLDEV_BITBUCKET_USERNAME=$(lpass show --username "$LP_ATLASSIAN_BITBUCKET_DEVPARTISAN")
+    readonly ATLDEV_BITBUCKET_APP_PASSWORD=$(lpass show --password "$LP_ATLASSIAN_BITBUCKET_DEVPARTISAN")
+    readonly ATLDEV_EMAIL=${ATLDEV_USERNAME}
+fi
 
 # Prompt
-eval "$(starship init zsh)"
-screenfetch
+export STARSHIP_CONFIG=~/.starship.toml
+if [ -x "$(command -v lpass)" ]; then
+    eval "$(starship init zsh)"
+fi
+if [ -x "$(command -v neofetch)" ]; then
+    neofetch
+fi
 
 # Zinit
 
