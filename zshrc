@@ -7,11 +7,6 @@ if [ -x "$(command -v /home/linuxbrew/.linuxbrew/bin/brew)" ]; then
     eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
 fi
 
-# Lastpass
-if [ -x "$(command -v lpass)" ]; then
-    LPASS_AGENT_TIMEOUT=$(( 12 * 60 * 60 ))
-fi
-
 # Pip --user commands
 if [ -d "$HOME/.local/bin" ]; then
     export PATH=$HOME/.local/bin:$PATH
@@ -22,11 +17,39 @@ if [ -d "$HOME/bin" ]; then
     export PATH=$HOME/bin:$PATH
 fi
 
+# Lastpass & secrets
+if [ -x "$(command -v lpass)" ]; then
+    LPASS_AGENT_TIMEOUT=$(( 12 * 60 * 60 ))
+    ## Atlassian Developer Environment
+    LPASS_ENV="devpartisan"
+    ATLASSIAN_ACCOUNT_EMAIL=$(lpass show ".env\\${LPASS_ENV}/account" --username)
+    ATLASSIAN_ACCOUNT_API_KEY=$(lpass show ".env\\${LPASS_ENV}/account" --password)
+    ATLASSIAN_ACCOUNT_ID=$(lpass show ".env\\${LPASS_ENV}/account" --field="id")
+    ATLASSIAN_APP_3LO_CLIENT_ID=$(lpass show ".env\\${LPASS_ENV}/3lo" --username)
+    ATLASSIAN_APP_3LO_CLIENT_SECRET=$(lpass show ".env\\${LPASS_ENV}/3lo" --password)
+    ATLASSIAN_APP_3LO_REDIRECT_URI=$(lpass show ".env\\${LPASS_ENV}/3lo" --url)
+    ATLASSIAN_APP_2LO_CLIENT_ID=$(lpass show ".env\\${LPASS_ENV}/2lo" --username)
+    ATLASSIAN_APP_2LO_CLIENT_SECRET=$(lpass show ".env\\${LPASS_ENV}/2lo" --password)
+    ATLASSIAN_APP_NAME=$(shuf -n1  /usr/share/dict/words)-$(shuf -n1  /usr/share/dict/words)-$(shuf -n1  /usr/share/dict/words)
+    ATLASSIAN_APP_ID=$(uuidgen)
+    ATLASSIAN_APP_CONNECT_PORT=
+    ATLASSIAN_APP_CONNECT_BASE_URL=https://${ATLASSIAN_APP_NAME}.example.com/
+    ATLASSIAN_ORGANIZATION_ID=$(lpass show ".env\\${LPASS_ENV}/organization" --username)
+    ATLASSIAN_ORGANIZATION_BEARER=$(lpass show ".env\\${LPASS_ENV}/organization" --password)
+    ATLASSIAN_SITE_NAME=$(lpass show ".env\\${LPASS_ENV}/site" --field="name")
+    ATLASSIAN_SITE_BASE_URL=$(lpass show ".env\\${LPASS_ENV}/site" --url)
+    ATLASSIAN_SITE_CLOUD_ID=$(lpass show ".env\\${LPASS_ENV}/site" --field="id")
+    ATLASSIAN_SITE_BASIC_USER=$(lpass show ".env\\${LPASS_ENV}/site" --username)
+    ATLASSIAN_SITE_BASIC_PASS=$(lpass show ".env\\${LPASS_ENV}/site" --password)
+fi
+
 # Python
 export WORKON_HOME=$HOME/.virtualenvs
 export PYENV_ROOT="$HOME/.pyenv"
 if [ -d "$PYENV_ROOT" ]; then
-    CFLAGS='-O2'
+    export CFLAGS='-O2'
+    export LDFLAGS="-L$(brew --prefix)/opt/zlib/lib -L$(brew --prefix)/opt/bzip2/lib -L$(brew --prefix)/opt/sqlite3/lib"
+    export CPPFLAGS="-I$(brew --prefix)/opt/zlib/include -I$(brew --prefix)/opt/bzip2/include -I$(brew --prefix)/opt/sqlite3/include"
     PATH="$PYENV_ROOT/bin:$PATH"
     if [ -x "$(command -v pyenv)" ]; then
         eval "$(pyenv init -)"
@@ -57,27 +80,8 @@ fi
 # Node
 export NODE_ENV=development
 export NVM_DIR="$HOME/.nvm"
-if [ -d "$NVM_DIR" ]; then
-    source $(brew --prefix nvm)/nvm.sh
-fi
-
-# Secrets
-## Atlassian Developer Environment
-# Lastpass
-if [ -x "$(command -v lpass)" ]; then
-    readonly LP_ATLASSIAN_ORGANIZATION_DEVPARTISAN="Atlassian Organization devpartisan"
-    readonly LP_ATLASSIAN_OAUTH_APP_DEVPARTISAN="Atlassian OAuth App devpartisan"
-    readonly LP_ATLASSIAN_DEVELOPER_DEVPARTISAN="Atlassian Developer devpartisan"
-    readonly LP_ATLASSIAN_BITBUCKET_DEVPARTISAN="bitbucket.org App password"
-    readonly ATLDEV_ORG_ID=$(lpass show --username "$LP_ATLASSIAN_ORGANIZATION_DEVPARTISAN")
-    readonly ATLDEV_ADMIN_API_KEY=$(lpass show --password "$LP_ATLASSIAN_ORGANIZATION_DEVPARTISAN")
-    readonly ATLDEV_CLIENT_ID=$(lpass show --username "$LP_ATLASSIAN_OAUTH_APP_DEVPARTISAN")
-    readonly ATLDEV_CLIENT_SECRET=$(lpass show --password "$LP_ATLASSIAN_OAUTH_APP_DEVPARTISAN")
-    readonly ATLDEV_USERNAME=$(lpass show --username "$LP_ATLASSIAN_DEVELOPER_DEVPARTISAN")
-    readonly ATLDEV_PERSONAL_API_KEY=$(lpass show --password "$LP_ATLASSIAN_DEVELOPER_DEVPARTISAN")
-    readonly ATLDEV_BITBUCKET_USERNAME=$(lpass show --username "$LP_ATLASSIAN_BITBUCKET_DEVPARTISAN")
-    readonly ATLDEV_BITBUCKET_APP_PASSWORD=$(lpass show --password "$LP_ATLASSIAN_BITBUCKET_DEVPARTISAN")
-    readonly ATLDEV_EMAIL=${ATLDEV_USERNAME}
+if [ -d "$NVM_DIR" ] && [ -s "$(brew --prefix nvm)/opt/nvm/nvm.sh" ]; then
+    $(brew --prefix nvm)/opt/nvm/nvm.sh
 fi
 
 # Prompt
