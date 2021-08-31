@@ -80,8 +80,8 @@ fi
 # Node
 export NODE_ENV=development
 export NVM_DIR="$HOME/.nvm"
-if [ -d "$NVM_DIR" ] && [ -s "$(brew --prefix nvm)/opt/nvm/nvm.sh" ]; then
-    $(brew --prefix nvm)/opt/nvm/nvm.sh
+if [ -d "$NVM_DIR" ] && [ -s "$(brew --prefix nvm)/nvm.sh" ]; then
+    source $(brew --prefix nvm)/nvm.sh
 fi
 
 # Prompt
